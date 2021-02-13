@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const URI = process.env.MONGODB_URI 
     ? process.env.MONGODB_URI 
-    : 'mongodb+srv://fazt:fazt@cluster0.wr5n9.mongodb.net/inventaryDB?retryWrites=true&w=majority';
+    : 'mongodb://localhost/';
 
 mongoose.connect(URI, {
     useUnifiedTopology: true,

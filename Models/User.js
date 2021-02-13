@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const bcrypt = require('bcrypt');
+
 const userSchema = new Schema({
     name:{
         type: String,
@@ -9,7 +11,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    mail:{
+    email:{
         type: String,
         required: true,
         trim: true,
@@ -25,12 +27,18 @@ const userSchema = new Schema({
         type: String,
         required: true,
         trim: true
-    },
-    confirmPassword:{
-        type: String,
-        required: true,
-        trim: true
     }
 }, { timestamps: true } );
+//encriptar
+
+userSchema.methods.generateHash = (password) => {//Encriptar una contraseña
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
+
+//desencriptar
+
+userSchema.methods.comparePassword = function (password){
+    return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = model('User', userSchema);
